@@ -124,7 +124,7 @@ def compute_stats(values: list, key: str = "") -> dict:
 
     if key_lower in cumulative_metrics:
         return {
-            "total": round(max(nums)),
+            "total": round(sum(nums)),
             "sources": len(nums)
         }
 
