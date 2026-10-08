@@ -166,6 +166,7 @@ class handler(BaseHTTPRequestHandler):
 
         for key, values in form_data.items():
             raw = values[0] if values else ""
+            print(f"RAW {key}: {raw[:300]!r}", flush=True)
             parsed = parse_values(raw)
             health_data[key] = compute_stats(parsed, key)
 
