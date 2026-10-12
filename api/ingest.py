@@ -38,6 +38,15 @@ def parse_values(raw: str) -> list:
     return values
 
 
+def undouble(raw: str, key: str) -> str:
+    s = unquote(raw).strip()
+    n = len(s)
+    if key.lower().strip() in ("steps", "exercise", "activeenergy") \
+            and n >= 2 and n % 2 == 0 and s[:n // 2] == s[n // 2:]:
+        return s[:n // 2]
+    return raw
+
+
 def compute_hr_zones(values: list) -> dict:
     """
     Calculate time spent in each heart rate zone.
@@ -166,6 +175,7 @@ class handler(BaseHTTPRequestHandler):
 
         for key, values in form_data.items():
             raw = values[0] if values else ""
+            raw = undouble(raw, key)
             print(f"RAW {key}: {raw[:300]!r}", flush=True)
             parsed = parse_values(raw)
             health_data[key] = compute_stats(parsed, key)
